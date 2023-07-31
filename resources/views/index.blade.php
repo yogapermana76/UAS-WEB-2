@@ -9,6 +9,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <style>
         body {
             background-color: #f0f0f0;
@@ -60,6 +61,9 @@
         <p>Ini adalah halaman beranda.</p>
     </div>
 
+    <script src="{{ asset('js/main.js') }}"></script>
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
