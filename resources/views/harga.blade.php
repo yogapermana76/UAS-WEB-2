@@ -14,9 +14,6 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
-    
-    <!-- Custom CSS -->
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     <style>
         .unsia-logo {
@@ -330,11 +327,7 @@
                                         <td>{{ $hargaSampah->harga_per_kg }}</td>
                                         <td>
                                             <a class="btn btn-sm btn-primary" href="{{ route('data-harga-sampah.edit', $hargaSampah->id) }}">Edit</a>
-                                            <form action="{{ route('data-harga-sampah.destroy', $hargaSampah->id) }}" method="POST" style="display: inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
-                                            </form>
+                                            <a class="btn btn-sm btn-danger btn-delete" data-toggle="modal" data-target="#deleteModal" data-id="{{ $hargaSampah->id }}">Hapus</a>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -384,17 +377,54 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-primary" type="button" data-dismiss="modal">Logout</button>
                 </div>
             </div>
         </div>
         </div>
 
+        <!-- Delete Modal-->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Apakah Anda yakin ingin menghapus data ini?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Pesan konfirmasi muncul untuk memastikan bahwa Anda benar-benar ingin menghapus data yang dipilih sebelum aksi dijalankan.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <form id="deleteForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <input type="hidden" name="item_id" id="item_id">
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+
+    <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('js/main.js') }}"></script>
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.btn-delete').click(function () {
+                const deleteRoute = "{{ route('data-harga-sampah.destroy', ':id') }}";
+                const id = $(this).data('id');
+                const url = deleteRoute.replace(':id', id);
+
+                $('#item_id').val(id);
+                $('#deleteForm').attr('action', url);
+            });
+        });
+    </script>
 </body>
 
 </html>
